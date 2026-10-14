@@ -69,6 +69,7 @@ signs after charging under 1000 lx, whereas a tunnel wall receives only 20 to
 
 ```
 report/internship-report-2026-fr.pdf   full internship report (French, 97 pages)
+presentation/defence-slides-2026-fr.pdf  defence slides, 27 August 2026 (French)
 src/plvis/                             processing library
     envi_io.py      memory-mapped reading of ENVI cubes, sequence ordering
     photometry.py   CIE V(lambda), luminance, band integrals
