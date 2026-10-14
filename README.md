@@ -69,15 +69,38 @@ signs after charging under 1000 lx, whereas a tunnel wall receives only 20 to
 
 ```
 report/internship-report-2026-fr.pdf   full internship report (French, 97 pages)
-src/                                   Python processing code (being added)
-data/                                  small sample data (being added)
-figures/                               main figures (being added)
-docs/                                  notes on the method
+src/plvis/                             processing library
+    envi_io.py      memory-mapped reading of ENVI cubes, sequence ordering
+    photometry.py   CIE V(lambda), luminance, band integrals
+    decay.py        two-exponential fit, time to half level
+    exr.py          minimal OpenEXR writer and reader (float, uncompressed)
+    regression.py   radiance-luminance regressions
+    angular.py      comparison of viewing angles
+    comparison.py   simulation vs measurement, scaling to a reference curve
+    series.py       time series of a region over a sequence of cubes
+scripts/                               command-line tools built on the library
+examples/make_synthetic_data.py        synthetic cubes to try the tools
+tests/                                 automatic tests (synthetic data)
+docs/notes-on-the-code.md              changes and corrections made for publication
 ```
 
-SWEET is Cerema's software and is not included. The full hyperspectral
-dataset (more than 700 GB) was handed over to the laboratory and is not
-published here.
+The radiative transfer simulator used in the project belongs to Cerema and is
+not included. No measured data is published here: the full hyperspectral
+dataset (more than 700 GB) was handed over to the laboratory.
+
+## Running the tools
+
+```bash
+pip install -r requirements.txt
+python examples/make_synthetic_data.py demo_cubes
+python scripts/decay_series.py demo_cubes --roi 10:30,12:48 --out results
+python scripts/cube_to_exr.py demo_cubes/demo_0000.hdr --roi 0:40,0:60 --luminance --out results/sign.exr
+python scripts/radiance_vs_luminance.py demo_cubes/demo_0000.hdr --roi 0:40,0:60
+python -m pytest -q tests
+```
+
+Regions are given as `row0:row1,col0:col1` in pixels. Wavelengths are read
+from the ENVI header; if missing, a 61-band grid from 430 to 910 nm is used.
 
 ## My role
 
